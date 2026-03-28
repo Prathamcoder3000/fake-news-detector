@@ -267,9 +267,9 @@ git push
 
 | Page | Preview |
 |------|---------|
-| Landing Page | *(screenshot)* |
-| Dashboard | *(screenshot)* |
-| Check News Page | *(screenshot)* |
+| Landing Page | ![](image.png) |
+| Dashboard | ![](image-1.png) |
+| Check News Page | ![](image-2.png) |
 | Result Page | *(screenshot)* |
 
 ---
