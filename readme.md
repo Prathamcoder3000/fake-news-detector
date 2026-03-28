@@ -2,6 +2,12 @@
 
 > An AI-powered full-stack web application to detect fake news using Natural Language Processing (NLP).
 
+![Project Status](https://img.shields.io/badge/Status-In%20Development-yellow)
+![Frontend](https://img.shields.io/badge/Frontend-Completed-brightgreen)
+![Backend](https://img.shields.io/badge/Backend-Pending-orange)
+![AI Model](https://img.shields.io/badge/AI%20Model-Pending-orange)
+![License](https://img.shields.io/badge/License-Academic-blue)
+
 ---
 
 ## 📌 Overview
@@ -83,6 +89,7 @@ Fake-News-Detector/
 │
 ├── public/
 ├── styles/
+├── .gitignore
 ├── package.json
 └── README.md
 ```
@@ -149,16 +156,16 @@ History / Insights / Report / Profile
 
 | Page | Description |
 |------|-------------|
-| Landing Page | Introduction and entry point |
-| Login / Signup | User authentication |
-| Dashboard | Overview with analytics |
-| Check News | Input news for analysis |
-| Result Page | Prediction output with confidence score |
-| History | Previously analyzed articles |
-| AI Insights | Trends and misinformation data |
-| Report News | Submit suspicious content |
-| Profile | User account management |
-| Admin Dashboard | Admin control panel |
+| 🏠 Landing Page | Introduction and entry point |
+| 🔐 Login / Signup | User authentication |
+| 📊 Dashboard | Overview with analytics |
+| 🔍 Check News | Input news article for analysis |
+| 📋 Result Page | Prediction output with confidence score |
+| 🕓 History | Previously analyzed articles |
+| 💡 AI Insights | Trends and misinformation data |
+| 📢 Report News | Submit suspicious content |
+| 👤 Profile | User account management |
+| ⚙️ Admin Dashboard | Admin control panel |
 
 ---
 
@@ -169,6 +176,77 @@ History / Insights / Report / Profile
 | Frontend UI | ✅ Completed |
 | Backend Integration | 🔄 Pending |
 | AI Model Integration | 🔄 Pending |
+| Database Setup | 🔄 Pending |
+| Deployment | 🔄 Pending |
+
+---
+
+## 📂 GitHub Setup Guide
+
+Follow these steps to push this project to GitHub:
+
+### Step 1 — Initialize Git
+```bash
+git init
+```
+
+### Step 2 — Create `.gitignore` File
+
+Create a file named `.gitignore` in your project root and add:
+
+```
+node_modules/
+.next/
+.env
+.env.local
+.DS_Store
+```
+
+> ⚠️ The filename starts with a dot and has no extension — it must be exactly `.gitignore`
+
+### Step 3 — Stage All Files
+```bash
+git add .
+```
+
+### Step 4 — First Commit
+```bash
+git commit -m "Initial commit - VeriNews AI Project"
+```
+
+### Step 5 — Connect to GitHub
+```bash
+git remote add origin https://github.com/your-username/fake-news-detector.git
+```
+
+### Step 6 — Push to GitHub
+```bash
+git branch -M main
+git push -u origin main
+```
+
+> 💡 GitHub requires a **Personal Access Token (PAT)** instead of your password.
+> Generate one at: **GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic)** → select `repo` scope.
+
+### 🔁 For Future Updates
+```bash
+git add .
+git commit -m "Your update message"
+git push
+```
+
+---
+
+## 💡 Useful Git Commands
+
+| Command | Description |
+|---------|-------------|
+| `git status` | Check status of files |
+| `git log --oneline` | View commit history |
+| `git reset --soft HEAD~1` | Undo last commit (keep files) |
+| `git checkout -b branch-name` | Create a new branch |
+| `git pull` | Pull latest changes from GitHub |
+| `git remote -v` | Verify remote connection |
 
 ---
 
@@ -179,17 +257,20 @@ History / Insights / Report / Profile
 - Mobile application development
 - Multilingual support
 - Social media integration
+- Browser extension for instant verification
 
 ---
 
 ## 📸 Screenshots
 
-> *(Add screenshots here)*
+> *(Add screenshots here after deployment)*
 
-- Landing Page
-- Dashboard
-- Check News Page
-- Result Page
+| Page | Preview |
+|------|---------|
+| Landing Page | *(screenshot)* |
+| Dashboard | *(screenshot)* |
+| Check News Page | *(screenshot)* |
+| Result Page | *(screenshot)* |
 
 ---
 
@@ -200,15 +281,26 @@ History / Insights / Report / Profile
 | **Name** | Your Name |
 | **Course** | B.Tech Computer Engineering |
 | **College** | Your College Name |
+| **GitHub** | [@your-username](https://github.com/your-username) |
 
 ---
 
 ## 📄 License
 
 This project is developed for **academic purposes only**.
+Not intended for commercial use.
 
 ---
 
 ## 🙌 Acknowledgment
 
-This project was developed as part of the **Full Stack Web Development** curriculum.
+This project was developed as part of the **Full Stack Web Development (FSWD)** curriculum.
+Special thanks to all open-source contributors and academic mentors who guided this project.
+
+---
+
+<div align="center">
+
+**⭐ If you found this project helpful, please give it a star on GitHub! ⭐**
+
+</div>
