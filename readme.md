@@ -4,8 +4,8 @@
 
 ![Project Status](https://img.shields.io/badge/Status-In%20Development-yellow)
 ![Frontend](https://img.shields.io/badge/Frontend-Completed-brightgreen)
-![Backend](https://img.shields.io/badge/Backend-Pending-orange)
-![AI Model](https://img.shields.io/badge/AI%20Model-Pending-orange)
+![Backend](https://img.shields.io/badge/Backend-Working-brightgreen)
+![AI Model](https://img.shields.io/badge/AI%20Model-Implemented-brightgreen)
 ![License](https://img.shields.io/badge/License-Academic-blue)
 
 ---
@@ -34,6 +34,9 @@ This project is developed as part of a **Full Stack Web Development (FSWD)** aca
 - Display confidence score
 - Highlight suspicious keywords
 - AI-based explanation panel
+- Analyze news from URLs (web scraping using axios + cheerio)
+- Machine Learning model using TF-IDF + Logistic Regression
+- Real-time prediction via Node.js + Python integration
 
 ### 📊 Dashboard Features
 - Analytics dashboard with key statistics
@@ -87,6 +90,17 @@ Fake-News-Detector/
 │   ├── dashboard/
 │   └── ui/
 │
+├── backend/
+│   ├── server.js
+│   ├── routes/
+│   │   └── news.js
+│   ├── ai_model.py
+│   ├── train.py
+│   ├── Fake.csv
+│   ├── True.csv
+│   ├── model.pkl
+│   └── vectorizer.pkl
+│
 ├── public/
 ├── styles/
 ├── .gitignore
@@ -101,9 +115,9 @@ Fake-News-Detector/
 | Layer | Technology |
 |-------|------------|
 | **Frontend** | React.js / Next.js, HTML, CSS, JavaScript, Tailwind CSS |
-| **Backend** *(Planned)* | Node.js, Express.js |
+| **Backend** | Node.js, Express.js |
 | **Database** *(Planned)* | MongoDB |
-| **AI / ML** *(Planned)* | Python, Natural Language Processing (NLP) |
+| **AI / ML** | Python, TF-IDF + Logistic Regression |
 
 ---
 
@@ -174,8 +188,8 @@ History / Insights / Report / Profile
 | Module | Status |
 |--------|--------|
 | Frontend UI | ✅ Completed |
-| Backend Integration | 🔄 Pending |
-| AI Model Integration | 🔄 Pending |
+| Backend Integration | ✅ Completed |
+| AI Model Integration | ✅ Completed |
 | Database Setup | 🔄 Pending |
 | Deployment | 🔄 Pending |
 
@@ -250,9 +264,18 @@ git push
 
 ---
 
+## ⚠️ Limitations
+
+- Authentication system is not implemented (UI only)
+- No database (history stored in browser localStorage)
+- Image upload feature is not functional yet
+- Model works best with English news content
+
+---
+
 ## 🔮 Future Scope
 
-- Integration with real AI/ML model
+- Improve ML model accuracy and performance
 - Real-time fake news detection
 - Mobile application development
 - Multilingual support
@@ -263,14 +286,26 @@ git push
 
 ## 📸 Screenshots
 
-> *(Add screenshots here after deployment)*
+### 🏠 Landing Page
+![](public/screenshots/landing.png)
 
-| Page | Preview |
-|------|---------|
-| Landing Page | ![](image.png) |
-| Dashboard | ![](image-1.png) |
-| Check News Page | ![](image-2.png) |
-| Result Page | *(screenshot)* |
+### 🔐 Login Page
+![](public/screenshots/login.png)
+
+### 📊 Dashboard
+![](public/screenshots/dashboard.png)
+
+### 🔍 Check News Page
+![](public/screenshots/check.png)
+
+
+### 📋 Result Page
+![](public/screenshots/check_news1.png)
+![](public/screenshots/news2.png)
+![](public/screenshots/news3.png)
+
+### 🕓 History Page
+![](public/screenshots/history_page.png)
 
 ---
 

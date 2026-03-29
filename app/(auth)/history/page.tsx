@@ -167,7 +167,7 @@ export default function HistoryPage() {
                       <td className="px-6 py-4 text-sm">
                         <div className="flex items-center gap-2">
                           <button
-                            onClick={() => router.push('/results')}
+                            onClick={() => router.push(`/results?result=${item.isFake ? 'Fake' : 'Real'}&confidence=${item.confidence}&explanation=${encodeURIComponent(item.aiAnalysis || '')}`)}
                             className="p-1.5 rounded-lg hover:bg-muted transition-colors"
                             title="View result"
                           >

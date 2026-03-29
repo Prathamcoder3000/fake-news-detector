@@ -7,6 +7,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { Upload, Link, Copy, Zap, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { saveAnalysisResult } from '@/lib/data'
 
 
 export default function CheckNewsPage() {
@@ -57,9 +58,30 @@ const data = await response.json();
 
 setIsAnalyzing(false);
 
-// redirect with explanation also
+// Save to localStorage history
+saveAnalysisResult({
+  id: Date.now().toString(),
+  headline: activeTab === 'text'
+    ? (content.slice(0, 120) + (content.length > 120 ? '...' : ''))
+    : activeTab === 'url'
+      ? url
+      : fileName,
+  content: activeTab === 'text' ? content : undefined,
+  url: activeTab === 'url' ? url : undefined,
+  fileName: activeTab === 'file' ? fileName : undefined,
+  isFake: data.result === 'Fake',
+  confidence: Number(data.confidence) || 0,
+  credibilityScore: data.result === 'Fake'
+    ? Math.max(10, 100 - Number(data.confidence))
+    : Number(data.confidence),
+  date: new Date().toLocaleString(),
+  aiAnalysis: data.explanation || '',
+  sources: ['AI Model Analysis'],
+})
+
+// Redirect to results page
 router.push(
-  `/results?result=${data.result}&confidence=${data.confidence}&explanation=${data.explanation}`
+  `/results?result=${data.result}&confidence=${data.confidence}&explanation=${encodeURIComponent(data.explanation || '')}`
 );
 
 } catch (err) {
