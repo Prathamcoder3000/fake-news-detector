@@ -7,7 +7,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { Upload, Link, Copy, Zap, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { generateAnalysisResult, saveAnalysisResult } from '@/lib/data'
+
 
 export default function CheckNewsPage() {
   const [activeTab, setActiveTab] = useState('text')
@@ -18,53 +18,55 @@ export default function CheckNewsPage() {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  const handleAnalyze = async () => {
-    setError('')
+ const handleAnalyze = async () => {
+setError('');
 
-    // Validation
-    if (activeTab === 'text' && !content.trim()) {
-      setError('Please paste some text to analyze')
-      return
-    }
-    if (activeTab === 'url' && !url.trim()) {
-      setError('Please paste a valid URL')
-      return
-    }
-    if (activeTab === 'url' && !isValidUrl(url)) {
-      setError('Please enter a valid URL (e.g., https://example.com)')
-      return
-    }
-    if (activeTab === 'file' && !fileName) {
-      setError('Please upload an image file to analyze')
-      return
-    }
+// Validation
+if (activeTab === 'text' && !content.trim()) {
+setError('Please paste some text to analyze');
+return;
+}
+if (activeTab === 'url' && !url.trim()) {
+setError('Please paste a valid URL');
+return;
+}
+if (activeTab === 'url' && !isValidUrl(url)) {
+setError('Please enter a valid URL (e.g., https://example.com)');
+return;
+}
+if (activeTab === 'file' && !fileName) {
+setError('Please upload an image file to analyze');
+return;
+}
 
-    setIsAnalyzing(true)
-    // Simulate API call
-    setTimeout(() => {
-      setIsAnalyzing(false)
-      
-      // Generate and save analysis result
-      const headline = activeTab === 'text' 
-        ? content.split('\n')[0].substring(0, 100)
-        : activeTab === 'url'
-        ? url
-        : fileName
-      
-      const result = generateAnalysisResult(
-        headline,
-        activeTab === 'text' ? content : undefined,
-        activeTab === 'url' ? url : undefined,
-        activeTab === 'file' ? fileName : undefined
-      )
-      
-      saveAnalysisResult(result)
-      
-      // Navigate to results with the analyzed data
-      router.push('/results')
-    }, 2000)
-  }
+setIsAnalyzing(true);
 
+try {
+const response = await fetch("http://localhost:5000/check-news", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+news: activeTab === 'text' ? content : "",
+url: activeTab === 'url' ? url : ""
+})
+});
+
+const data = await response.json();
+
+setIsAnalyzing(false);
+
+// redirect with explanation also
+router.push(
+  `/results?result=${data.result}&confidence=${data.confidence}&explanation=${data.explanation}`
+);
+
+} catch (err) {
+setIsAnalyzing(false);
+setError("Failed to connect to backend");
+}
+};
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
