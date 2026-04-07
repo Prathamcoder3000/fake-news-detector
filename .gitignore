@@ -5,3 +5,6 @@ node_modules/
 __pycache__/
 model.pkl
 vectorizer.pkl
+node_modules
+package.json
+package-lock.json
