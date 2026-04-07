@@ -1,11 +1,12 @@
 
 'use client'
 
+import { Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, XCircle, RotateCcw, ClockIcon, ArrowLeft } from 'lucide-react'
 
-export default function ResultsPage() {
+function ResultsContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -114,6 +115,14 @@ export default function ResultsPage() {
         </Button>
       </div>
     </div>
+  )
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center py-20"><ClockIcon className="w-8 h-8 animate-spin text-muted-foreground" /></div>}>
+      <ResultsContent />
+    </Suspense>
   )
 }
 

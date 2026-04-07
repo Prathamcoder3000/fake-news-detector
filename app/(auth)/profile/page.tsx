@@ -3,20 +3,36 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { BarChart3, CheckCircle2, Flag, Mail, Phone, MapPin, Calendar } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useUser } from '@/lib/UserContext'
 
 export default function ProfilePage() {
+  const { user } = useUser()
   const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState({
-    name: 'John Doe',
-    email: 'john@example.com',
+    name: user?.name || '',
+    email: user?.email || '',
     phone: '+1 (555) 123-4567',
     location: 'San Francisco, CA',
     joinDate: 'January 2024',
   })
 
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.name,
+        email: user.email,
+      }))
+    }
+  }, [user])
+
   const handleSave = () => {
     setIsEditing(false)
+  }
+
+  if (!user) {
+    return <div>Please login to view your profile</div>
   }
 
   return (
@@ -26,7 +42,7 @@ export default function ProfilePage() {
           <div className="flex flex-col md:flex-row md:items-end gap-6">
             {/* Avatar */}
             <div className="w-24 h-24 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-3xl font-bold flex-shrink-0">
-              JD
+              {user.name.charAt(0).toUpperCase()}
             </div>
 
             {/* Profile Info */}

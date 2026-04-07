@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { BarChart3, CheckCircle2, AlertCircle, Clock, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { useUser } from '@/lib/UserContext'
 
 const chartData = [
   { name: 'Jan', fake: 45, real: 120 },
@@ -28,13 +29,19 @@ const activityData = [
 ]
 
 export default function DashboardPage() {
+  const { user } = useUser()
+
+  if (!user) {
+    return <div>Please login to view your dashboard</div>
+  }
+
   return (
     <div className="space-y-8 animate-fade-in">
         {/* Page Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
             <h1 className="heading-lg">Dashboard</h1>
-            <p className="text-muted-foreground mt-1">Welcome back! Here's your news verification overview</p>
+            <p className="text-muted-foreground mt-1">Welcome back, {user.name}! Here's your news verification overview</p>
           </div>
           <Link href="/check-news">
             <Button>

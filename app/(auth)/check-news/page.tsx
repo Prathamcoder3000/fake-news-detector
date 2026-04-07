@@ -8,6 +8,8 @@ import { Upload, Link, Copy, Zap, AlertCircle } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { saveAnalysisResult } from '@/lib/data'
+import { useUser } from '@/lib/UserContext'
+import api from '@/lib/api'
 
 
 export default function CheckNewsPage() {
@@ -18,77 +20,116 @@ export default function CheckNewsPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const { token } = useUser()
 
- const handleAnalyze = async () => {
-setError('');
+const handleAnalyze = async () => {
+  setError('')
 
-// Validation
-if (activeTab === 'text' && !content.trim()) {
-setError('Please paste some text to analyze');
-return;
+  // Validation
+  if (activeTab === 'text' && !content.trim()) {
+    setError('Please paste some text to analyze')
+    return
+  }
+  if (activeTab === 'url' && !url.trim()) {
+    setError('Please paste a valid URL')
+    return
+  }
+  if (activeTab === 'url' && !isValidUrl(url)) {
+    setError('Please enter a valid URL (e.g., https://example.com)')
+    return
+  }
+  if (activeTab === 'file' && !fileName) {
+    setError('Please upload an image file to analyze')
+    return
+  }
+
+  if (!token) {
+    setError('Missing auth token')
+    return
+  }
+
+  setIsAnalyzing(true)
+
+  try {
+    let data
+
+    // 🔥 IMAGE CASE FIX (MAIN CHANGE)
+    if (activeTab === 'file') {
+      const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement
+      const file = fileInput?.files?.[0]
+
+      if (!file) {
+        setError('No image selected')
+        setIsAnalyzing(false)
+        return
+      }
+
+      const formData = new FormData()
+      formData.append('image', file)
+
+      const res = await fetch('http://localhost:5000/api/check-news-image', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      })
+
+      data = await res.json()
+
+    } else {
+      // 🔥 TEXT + URL (same as before)
+      const response = await api.post(
+        '/check-news',
+        {
+          news: activeTab === 'text' ? content : '',
+          url: activeTab === 'url' ? url : '',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+
+      data = response.data
+    }
+
+    setIsAnalyzing(false)
+
+    // SAVE RESULT (UNCHANGED)
+    saveAnalysisResult({
+      id: Date.now().toString(),
+      headline:
+        activeTab === 'text'
+          ? content.slice(0, 120)
+          : activeTab === 'url'
+          ? url
+          : fileName,
+      content: activeTab === 'text' ? content : undefined,
+      url: activeTab === 'url' ? url : undefined,
+      fileName: activeTab === 'file' ? fileName : undefined,
+      isFake: data.result === 'Fake',
+      confidence: Number(data.confidence) || 0,
+      credibilityScore:
+        data.result === 'Fake'
+          ? Math.max(10, 100 - Number(data.confidence))
+          : Number(data.confidence),
+      date: new Date().toLocaleString(),
+      aiAnalysis: data.explanation || '',
+      sources: ['AI Model Analysis'],
+    })
+
+    router.push(
+      `/results?result=${data.result}&confidence=${data.confidence}&explanation=${encodeURIComponent(data.explanation || '')}`
+    )
+
+  } catch (err) {
+    setIsAnalyzing(false)
+    setError('Failed to connect to backend')
+  }
 }
-if (activeTab === 'url' && !url.trim()) {
-setError('Please paste a valid URL');
-return;
-}
-if (activeTab === 'url' && !isValidUrl(url)) {
-setError('Please enter a valid URL (e.g., https://example.com)');
-return;
-}
-if (activeTab === 'file' && !fileName) {
-setError('Please upload an image file to analyze');
-return;
-}
 
-setIsAnalyzing(true);
-
-try {
-const response = await fetch("http://localhost:5000/check-news", {
-method: "POST",
-headers: {
-"Content-Type": "application/json"
-},
-body: JSON.stringify({
-news: activeTab === 'text' ? content : "",
-url: activeTab === 'url' ? url : ""
-})
-});
-
-const data = await response.json();
-
-setIsAnalyzing(false);
-
-// Save to localStorage history
-saveAnalysisResult({
-  id: Date.now().toString(),
-  headline: activeTab === 'text'
-    ? (content.slice(0, 120) + (content.length > 120 ? '...' : ''))
-    : activeTab === 'url'
-      ? url
-      : fileName,
-  content: activeTab === 'text' ? content : undefined,
-  url: activeTab === 'url' ? url : undefined,
-  fileName: activeTab === 'file' ? fileName : undefined,
-  isFake: data.result === 'Fake',
-  confidence: Number(data.confidence) || 0,
-  credibilityScore: data.result === 'Fake'
-    ? Math.max(10, 100 - Number(data.confidence))
-    : Number(data.confidence),
-  date: new Date().toLocaleString(),
-  aiAnalysis: data.explanation || '',
-  sources: ['AI Model Analysis'],
-})
-
-// Redirect to results page
-router.push(
-  `/results?result=${data.result}&confidence=${data.confidence}&explanation=${encodeURIComponent(data.explanation || '')}`
-);
-
-} catch (err) {
-setIsAnalyzing(false);
-setError("Failed to connect to backend");
-}
-};
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {

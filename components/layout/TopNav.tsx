@@ -7,6 +7,7 @@ import { ThemeToggle } from './ThemeToggle'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useRouter } from 'next/navigation'
+import { useUser } from '@/lib/UserContext'
 
 interface TopNavProps {
   onMenuClick?: () => void
@@ -18,6 +19,7 @@ export function TopNav({ onMenuClick, menuOpen = false }: TopNavProps) {
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  const { user, logout } = useUser()
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -78,65 +80,77 @@ export function TopNav({ onMenuClick, menuOpen = false }: TopNavProps) {
           <ThemeToggle />
 
           {/* Profile Dropdown */}
-          <div ref={menuRef} className="flex items-center gap-2 pl-2 sm:pl-4 border-l border-border relative">
-            <button
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
-              className="flex items-center gap-2 hover:opacity-75 transition-opacity"
-            >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-bold">
-                JD
+          {user ? (
+            <div ref={menuRef} className="flex items-center gap-2 pl-2 sm:pl-4 border-l border-border relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center gap-2 hover:opacity-75 transition-opacity"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-bold">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="hidden sm:block">
+                  <div className="text-sm font-medium text-foreground">{user.name}</div>
+                  <div className="text-xs text-muted-foreground">{user.email}</div>
+                </div>
+              </button>
+
+              {/* Dropdown Menu */}
+              {userMenuOpen && (
+                <div className="absolute top-full right-0 mt-2 w-48 rounded-lg border border-border bg-card shadow-lg py-1 z-50">
+                  <div className="px-4 py-2 border-b border-border">
+                    <div className="text-sm font-medium text-foreground">{user.name}</div>
+                    <div className="text-xs text-muted-foreground">{user.email}</div>
+                  </div>
+                  
+                  <button
+                    onClick={() => {
+                      router.push('/profile')
+                      setUserMenuOpen(false)
+                    }}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted w-full text-left transition-colors"
+                  >
+                    <User className="w-4 h-4" />
+                    <span>My Profile</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      router.push('/profile')
+                      setUserMenuOpen(false)
+                    }}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted w-full text-left transition-colors"
+                  >
+                    <Settings className="w-4 h-4" />
+                    <span>Settings</span>
+                  </button>
+
+                  <div className="border-t border-border my-1" />
+
+                  <button
+                    onClick={() => {
+                      logout()
+                      router.push('/login')
+                      setUserMenuOpen(false)
+                    }}
+                    className="flex items-center gap-3 px-4 py-2 text-sm text-destructive hover:bg-muted w-full text-left transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link href="/login" className="flex items-center gap-2 hover:opacity-75 transition-opacity pl-2 sm:pl-4 border-l border-border">
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                <User className="w-4 h-4 text-muted-foreground" />
               </div>
               <div className="hidden sm:block">
-                <div className="text-sm font-medium text-foreground">John Doe</div>
-                <div className="text-xs text-muted-foreground">Admin</div>
+                <div className="text-sm font-medium text-foreground">Login</div>
               </div>
-            </button>
-
-            {/* Dropdown Menu */}
-            {userMenuOpen && (
-              <div className="absolute top-full right-0 mt-2 w-48 rounded-lg border border-border bg-card shadow-lg py-1 z-50">
-                <div className="px-4 py-2 border-b border-border">
-                  <div className="text-sm font-medium text-foreground">John Doe</div>
-                  <div className="text-xs text-muted-foreground">john@example.com</div>
-                </div>
-                
-                <button
-                  onClick={() => {
-                    router.push('/profile')
-                    setUserMenuOpen(false)
-                  }}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted w-full text-left transition-colors"
-                >
-                  <User className="w-4 h-4" />
-                  <span>My Profile</span>
-                </button>
-
-                <button
-                  onClick={() => {
-                    router.push('/profile')
-                    setUserMenuOpen(false)
-                  }}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted w-full text-left transition-colors"
-                >
-                  <Settings className="w-4 h-4" />
-                  <span>Settings</span>
-                </button>
-
-                <div className="border-t border-border my-1" />
-
-                <button
-                  onClick={() => {
-                    router.push('/login')
-                    setUserMenuOpen(false)
-                  }}
-                  className="flex items-center gap-3 px-4 py-2 text-sm text-destructive hover:bg-muted w-full text-left transition-colors"
-                >
-                  <LogOut className="w-4 h-4" />
-                  <span>Logout</span>
-                </button>
-              </div>
-            )}
-          </div>
+            </Link>
+          )}
         </div>
       </div>
     </header>
