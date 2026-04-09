@@ -222,6 +222,7 @@ cp .env.example .env
 ```bash
 # Start MongoDB (if using local installation)
 mongod --dbpath /path/to/your/db
+mongod --dbpath "D:\FSWD\mongodb-data" 
 
 # Or use MongoDB Atlas for cloud database
 # Update MONGO_URI in .env files accordingly
@@ -573,10 +574,10 @@ git push
 ![Check News](public/screenshots/check.png)
 
 ### 📋 Results Page
-![Results](public/screenshots/results.png)
+![Results](public/screenshots/check.png)
 
 ### 🕓 History Page
-![History](public/screenshots/history.png)
+![History](public/screenshots/history_page.png)
 
 ---
 
