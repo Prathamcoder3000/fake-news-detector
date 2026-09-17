@@ -13,18 +13,18 @@
 
 ## 📌 Overview
 
-**VeriNews AI** is a comprehensive Full Stack Web Application designed to detect whether a news article, headline, URL, or image is **Real**, **Fake**, or **Uncertain** using Artificial Intelligence, Natural Language Processing (NLP), and Machine Learning.
+**VeriNews AI** is a comprehensive Full Stack Web Application designed to analyze whether a news article, headline, URL, or image is **Real**, **Fake**, or **Uncertain** using Artificial Intelligence, Natural Language Processing (NLP), and Machine Learning.
 
-This project is developed as part of a **Full Stack Web Development (FSWD)** academic project and features a modern AI-powered web platform with a professional dashboard interface, user authentication, analysis history, analytics, reporting functionality, and administrative controls.
+This project is developed as part of a **Full Stack Web Development (FSWD)** academic project and features a modern AI-powered web platform with a professional dashboard interface, secure user authentication, analysis history, analytics, reporting functionality, and administrative controls.
 
 ---
 
 ## 🎯 Objective
 
-- Detect fake news using AI-based techniques
-- Help users verify news authenticity through multiple input methods (text, URL, image)
+- Detect potentially fake news using AI-based techniques
+- Help users analyze news through multiple input methods (text, URL, and image)
 - Provide prediction confidence with uncertainty handling
-- Reduce the risk of accepting low-confidence predictions as definitive
+- Reduce the risk of treating low-confidence predictions as definitive
 - Maintain user analysis history using MongoDB
 - Provide analytics and insights based on analyzed news
 - Allow users to report suspicious content for administrative review
@@ -38,10 +38,10 @@ This project is developed as part of a **Full Stack Web Development (FSWD)** aca
 - **Multi-Input Analysis**: Analyze news articles, headlines, URLs, or images
 - **Machine Learning Model**: LinearSVC with TF-IDF vectorization and bigram features
 - **Confidence Scoring**: Display prediction confidence with uncertainty handling
-- **URL Extraction**: Automatic content extraction from supported news websites
-- **Image OCR**: Text extraction from news screenshots using pytesseract
-- **Real-time Prediction**: Node.js + Python integration for prediction results
-- **Uncertainty Detection**: Returns "Uncertain" for low-confidence predictions
+- **URL Extraction**: Automatically extract content from supported news websites
+- **Image OCR**: Extract text from news screenshots using `pytesseract`
+- **Real-Time Prediction**: Node.js + Python integration for prediction results
+- **Uncertainty Detection**: Returns `Uncertain` for low-confidence predictions
 
 ### 📊 Dashboard Features
 - **Analytics Dashboard**: Key statistics and visualizations
@@ -57,7 +57,7 @@ This project is developed as part of a **Full Stack Web Development (FSWD)** aca
 
 ### 📢 Reporting System
 - **Report Suspicious Content**: Submit URLs, text, or images for review
-- **Category Classification**: Select report type such as misinformation, satire, bias, etc.
+- **Category Classification**: Select report types such as misinformation, satire, bias, etc.
 - **Admin Review**: Reported content is available in the admin dashboard for moderation
 
 ### 👤 User Features
@@ -76,7 +76,7 @@ This project is developed as part of a **Full Stack Web Development (FSWD)** aca
 
 ## 🏗️ Project Structure
 
-```
+```text
 Fake-News-Detector/
 │
 ├── app/                           # Next.js App Router
@@ -170,7 +170,7 @@ Fake-News-Detector/
 | **UI Framework** | Tailwind CSS, Shadcn/ui | Responsive design and component library |
 | **Backend** | Node.js, Express.js | REST API server |
 | **Database** | MongoDB | User data and analysis history |
-| **Authentication** | JWT (jsonwebtoken) | Secure token-based auth |
+| **Authentication** | JWT (jsonwebtoken) | Secure token-based authentication |
 | **AI / ML** | Python, scikit-learn | Machine learning pipeline |
 | **OCR** | pytesseract, Pillow | Image text extraction |
 | **Web Scraping** | axios, cheerio | URL content extraction |
@@ -239,6 +239,8 @@ Update `MONGO_URI` in the appropriate environment file:
 MONGO_URI=your_mongodb_connection_string
 ```
 
+> ⚠️ Never commit `.env`, `.env.local`, passwords, API keys, JWT secrets, or other sensitive credentials to GitHub.
+
 ### 5. Train ML Model (Optional - pre-trained model included)
 
 ```bash
@@ -266,7 +268,7 @@ node server.js
 
 ## 🔄 Application Flow
 
-```
+```text
 Landing Page → Login/Signup → Dashboard
                               ↓
                      ┌────────┴────────┐
@@ -300,7 +302,7 @@ Landing Page → Login/Signup → Dashboard
 | 🕓 **History** | Analysis history | Searchable records, re-analysis |
 | 💡 **Insights** | Analytics & trends | Charts, fake news patterns |
 | 📢 **Report News** | Report suspicious content | Category selection, admin queue |
-| 👤 **Profile** | Account management | Update info, preferences |
+| 👤 **Profile** | Account management | Update information and preferences |
 | ⚙️ **Admin** | Admin control panel | User management, content moderation |
 
 ---
@@ -309,14 +311,14 @@ Landing Page → Login/Signup → Dashboard
 
 ### Training Data
 
-- **Fake News**: 23,481 articles from Fake.csv
-- **Real News**: 21,417 articles from True.csv
+- **Fake News**: 23,481 articles from `Fake.csv`
+- **Real News**: 21,417 articles from `True.csv`
 - **Total**: 44,898 training samples
 
 ### Model Architecture
 
-- **Algorithm**: LinearSVC with class_weight='balanced'
-- **Vectorization**: TF-IDF with 50,000 features, ngram_range=(1,2)
+- **Algorithm**: LinearSVC with `class_weight='balanced'`
+- **Vectorization**: TF-IDF with 50,000 features, `ngram_range=(1,2)`
 - **Calibration**: CalibratedClassifierCV for probability estimates
 - **Preprocessing**: Lowercase, URL removal, punctuation removal, stopword filtering
 
@@ -331,8 +333,8 @@ Landing Page → Login/Signup → Dashboard
 
 ### Prediction Output
 
-- **Format**: "Label,Confidence" (e.g., "Fake,87" or "Uncertain,45")
-- **Uncertainty Threshold**: ≤55% confidence returns "Uncertain"
+- **Format**: `"Label,Confidence"` (e.g., `"Fake,87"` or `"Uncertain,45"`)
+- **Uncertainty Threshold**: ≤55% confidence returns `"Uncertain"`
 - **Input Types**: Text, URL (auto-extracted), Image (OCR)
 
 ---
@@ -341,11 +343,11 @@ Landing Page → Login/Signup → Dashboard
 
 | Module | Status | Details |
 |--------|--------|---------|
-| ✅ Frontend UI | Completed | All pages responsive, modern design |
-| ✅ Backend API | Completed | RESTful endpoints, error handling |
+| ✅ Frontend UI | Completed | All pages responsive with modern design |
+| ✅ Backend API | Completed | RESTful endpoints and error handling |
 | ✅ Authentication | Completed | JWT-based login/signup/logout |
 | ✅ Database | Completed | MongoDB with user/analysis models |
-| ✅ AI Model | Completed | LinearSVC with 99.45% accuracy |
+| ✅ AI Model | Completed | LinearSVC with documented evaluation results |
 | ✅ Image OCR | Completed | pytesseract integration |
 | ✅ URL Extraction | Completed | axios + cheerio web scraping |
 | ✅ History Tracking | Completed | Persistent analysis storage |
@@ -357,6 +359,7 @@ Landing Page → Login/Signup → Dashboard
 ## 📂 GitHub Setup Guide
 
 ### Step 1 — Initialize Git
+
 ```bash
 git init
 ```
@@ -365,7 +368,7 @@ git init
 
 Create a file named `.gitignore` in your project root and add:
 
-```
+```gitignore
 node_modules/
 .next/
 .env
@@ -379,21 +382,25 @@ backend/uploads/
 > ⚠️ The filename starts with a dot and has no extension — it must be exactly `.gitignore`
 
 ### Step 3 — Stage All Files
+
 ```bash
 git add .
 ```
 
 ### Step 4 — First Commit
+
 ```bash
 git commit -m "Initial commit - VeriNews AI Complete Implementation"
 ```
 
 ### Step 5 — Connect to GitHub
+
 ```bash
 git remote add origin <YOUR_GITHUB_REPOSITORY_URL>
 ```
 
 ### Step 6 — Push to GitHub
+
 ```bash
 git branch -M main
 git push -u origin main
@@ -402,6 +409,7 @@ git push -u origin main
 > 💡 GitHub authentication may require a **Personal Access Token (PAT)** or another supported authentication method instead of your account password.
 
 ### 🔁 For Future Updates
+
 ```bash
 git add .
 git commit -m "Your update message"
@@ -426,15 +434,18 @@ git push
 ## 🔧 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `POST /api/auth/logout` - User logout
 
 ### News Analysis
+
 - `POST /api/news/check-news` - Analyze text or URL
 - `POST /api/news/check-news-image` - Analyze uploaded image
 
 ### History & Reports
+
 - `GET /api/history` - Get user's analysis history
 - `POST /api/report` - Submit suspicious content report
 
@@ -467,27 +478,32 @@ git push
 ## 📸 Screenshots
 
 ### 🏠 Landing Page
+
 ![Landing Page](public/screenshots/landing.png)
 
 ### 🔐 Login Page
+
 ![Login Page](public/screenshots/login.png)
 
 ### 📊 Dashboard
+
 ![Dashboard](public/screenshots/Dashboard.png)
 
 ### 🔍 Check News Page
+
 ![Check News](public/screenshots/check.png)
 
-### 📋 Results Page
-![Results](public/screenshots/results.png)
+### 📋 Result Page
+
+![Result Screen 1](public/screenshots/check_news1.png)
+
+![Result Screen 2](public/screenshots/news2.png)
+
+![Result Screen 3](public/screenshots/news3.png)
 
 ### 🕓 History Page
-![History](public/screenshots/history_page.png)
 
-### 📋 Result Page
-![Result Screen 1](public/screenshots/check_news1.png)
-![Result Screen 2](public/screenshots/news2.png)
-![Result Screen 3](public/screenshots/news3.png)
+![History](public/screenshots/history_page.png)
 
 ---
 
@@ -517,7 +533,7 @@ Not intended for commercial use.
 
 ## 👥 Team
 
-- **Developer**: Prathamesh Shelar
+- **Developers**: Prathamesh Shelar, Swarangi Savekar, and Ketaki Patil
 - **Project**: VeriNews AI - Fake News Detection Platform
 - **Course**: Full Stack Web Development (FSWD)
 
