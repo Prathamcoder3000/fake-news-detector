@@ -473,7 +473,7 @@ git push
 ![Login Page](public/screenshots/login.png)
 
 ### 📊 Dashboard
-![Dashboard](public/screenshots/dashboard.png)
+![Dashboard](public/screenshots/Dashboard.png)
 
 ### 🔍 Check News Page
 ![Check News](public/screenshots/check.png)
